@@ -4,7 +4,9 @@ public class Escalonador {
     private ListasDeProcessos mediaPrioridade;
     private ListasDeProcessos baixaPrioridade;
     private ListasDeProcessos bloqueados;
-    private ListasDeProcessos contagemAltaPrioridade;
+
+
+    private int contagemAltaPrioridade;
 
     // permite que o escalonador seja chamado em qualquer lugar do código
     public Escalonador(){
@@ -14,12 +16,46 @@ public class Escalonador {
         this.mediaPrioridade = new ListaDeProcessos();
         this.bloqueados = new ListaDeProcessos();
         this.contagemAltaPrioridade = 0;
-
-
     }
 
-    public void proximoCiclo(){
-        //implementar lógica...
+    //Adicionar na lista baseado em sua prioridade
+
+    public void adicionarProcessos(Processo processo){
+        switch (processo.getPrioridade()){
+            case 1:
+                altaPrioridade.adicionarNoFinal(processo);
+                break;
+
+            case 2:
+                mediaPrioridade.adicionarNoFinal(processo);
+
+            case 3:
+                baixaPrioridade.adicionarNoFnial(processo);
+
+            default:
+                System.out.println("Essa prioridade é inválida " + processo.getNome());
+        }
+    }
+
+    public void executarCiclosDeCPU(){
+
+        desbloqueioDeProcessos();
+
+        //verifica se vai ser necessario o método anti inanição, implementado pela Maria Clara
+        Processo processoParaExecutar = null;
+
+        if (contagemAltaPrioridade >= 5){
+            processoParaExecutar = obterProcessoAntiInanicao();
+            if(processoParaExecutar != null){
+                contagemAltaPrioridade = 0;
+            }
+        }else {
+            processoParaExecutar = obterNovoProcesso();
+        }
+
+
+
+
     }
 
 }
