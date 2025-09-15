@@ -1,62 +1,41 @@
 public class Escalonador {
     // definir as lista de processos
-    private ListasDeProcessos altaPrioridade;
-    private ListasDeProcessos mediaPrioridade;
-    private ListasDeProcessos baixaPrioridade;
-    private ListasDeProcessos bloqueados;
+    private ListaDeProcessos listaAltaPrioridade;
+    private ListaDeProcessos listaMediaPrioridade;
+    private ListaDeProcessos listaBaixaPrioridade;
+    private ListaDeProcessos listaBloqueados;
+    private int contadorCiclosAltaPrioridade;
+    private int cicloAtual;
 
-
-    private int contagemAltaPrioridade;
-
-    // permite que o escalonador seja chamado em qualquer lugar do código
-    public Escalonador(){
-        //criando listas novas para entrada de cada item de acordo com seus atributos/prioridades
-        this.altaPrioridade = new ListaDeProcessos();
-        this.baixaPrioridade = new ListaDeProcessos();
-        this.mediaPrioridade = new ListaDeProcessos();
-        this.bloqueados = new ListaDeProcessos();
-        this.contagemAltaPrioridade = 0;
+    public Escalonador() {
+        this.listaAltaPrioridade = new ListaDeProcessos();
+        this.listaMediaPrioridade = new ListaDeProcessos();
+        this.listaBaixaPrioridade = new ListaDeProcessos();
+        this.listaBloqueados = new ListaDeProcessos();
+        this.contadorCiclosAltaPrioridade = 0;
+        this.cicloAtual = 0;
     }
 
-    //Adicionar na lista baseado em sua prioridade
-
-    public void adicionarProcessos(Processo processo){
-        switch (processo.getPrioridade()){
-            case 1:
-                altaPrioridade.adicionarNoFinal(processo);
+    // Adiciona processo na lista correspondente à sua prioridade
+    public void adicionarProcesso(Processo processo) {
+        switch(processo.prioridade) {
+            case 1: // Alta prioridade
+                listaAltaPrioridade.adicionarNoFinal(processo);
                 break;
-
-            case 2:
-                mediaPrioridade.adicionarNoFinal(processo);
-
-            case 3:
-                baixaPrioridade.adicionarNoFnial(processo);
-
+            case 2: // Média prioridade
+                listaMediaPrioridade.adicionarNoFinal(processo);
+                break;
+            case 3: // Baixa prioridade
+                listaBaixaPrioridade.adicionarNoFinal(processo);
+                break;
             default:
-                System.out.println("Essa prioridade é inválida " + processo.getNome());
+                System.out.println("⚠️ Prioridade inválida para processo P" + processo.id);
         }
-    }
-
-    public void executarCiclosDeCPU(){
-
-        desbloqueioDeProcessos();
-
-        //verifica se vai ser necessario o método anti inanição, implementado pela Maria Clara
-        Processo processoParaExecutar = null;
-
-        if (contagemAltaPrioridade >= 5){
-            processoParaExecutar = obterProcessoAntiInanicao();
-            if(processoParaExecutar != null){
-                contagemAltaPrioridade = 0;
-            }
-        }else {
-            processoParaExecutar = obterNovoProcesso();
-        }
-
-
-
-
     }
 
 }
+
+
+
+
 
