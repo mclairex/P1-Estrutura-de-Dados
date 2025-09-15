@@ -1,26 +1,41 @@
 public class Escalonador {
     // definir as lista de processos
-    private ListasDeProcessos altaPrioridade;
-    private ListasDeProcessos mediaPrioridade;
-    private ListasDeProcessos baixaPrioridade;
-    private ListasDeProcessos bloqueados;
-    private ListasDeProcessos contagemAltaPrioridade;
+    private ListaDeProcessos listaAltaPrioridade;
+    private ListaDeProcessos listaMediaPrioridade;
+    private ListaDeProcessos listaBaixaPrioridade;
+    private ListaDeProcessos listaBloqueados;
+    private int contadorCiclosAltaPrioridade;
+    private int cicloAtual;
 
-    // permite que o escalonador seja chamado em qualquer lugar do código
-    public Escalonador(){
-        //criando listas novas para entrada de cada item de acordo com seus atributos/prioridades
-        this.altaPrioridade = new ListaDeProcessos();
-        this.baixaPrioridade = new ListaDeProcessos();
-        this.mediaPrioridade = new ListaDeProcessos();
-        this.bloqueados = new ListaDeProcessos();
-        this.contagemAltaPrioridade = 0;
-
-
+    public Escalonador() {
+        this.listaAltaPrioridade = new ListaDeProcessos();
+        this.listaMediaPrioridade = new ListaDeProcessos();
+        this.listaBaixaPrioridade = new ListaDeProcessos();
+        this.listaBloqueados = new ListaDeProcessos();
+        this.contadorCiclosAltaPrioridade = 0;
+        this.cicloAtual = 0;
     }
 
-    public void proximoCiclo(){
-        //implementar lógica...
+    // Adiciona processo na lista correspondente à sua prioridade
+    public void adicionarProcesso(Processo processo) {
+        switch(processo.prioridade) {
+            case 1: // Alta prioridade
+                listaAltaPrioridade.adicionarNoFinal(processo);
+                break;
+            case 2: // Média prioridade
+                listaMediaPrioridade.adicionarNoFinal(processo);
+                break;
+            case 3: // Baixa prioridade
+                listaBaixaPrioridade.adicionarNoFinal(processo);
+                break;
+            default:
+                System.out.println("⚠️ Prioridade inválida para processo P" + processo.id);
+        }
     }
 
 }
+
+
+
+
 
